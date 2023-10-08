@@ -30,7 +30,9 @@ function getUserDataFromReq(req) {
   });
 }
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(
+  'mongodb+srv://booking:S0uRuKEaW843d5wX@cluster0.5nba3dg.mongodb.net/?retryWrites=true&w=majority'
+);
 
 app.use(
   cors({
