@@ -1,21 +1,23 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
+
+import Image from "./Image";
 
 export default function PhotosUploader({ addedPhotos, onChange }) {
-  const [PhotoLink, setPhotoLink] = useState('');
+  const [PhotoLink, setPhotoLink] = useState("");
 
   async function addPhotoByLink(ev) {
     try {
       ev.preventDefault();
-      const { data: filename } = await axios.post('/upload-by-link', {
+      const { data: filename } = await axios.post("/upload-by-link", {
         link: PhotoLink,
       });
       onChange((prev) => {
         return [...prev, filename];
       });
-      setPhotoLink('');
+      setPhotoLink("");
     } catch (e) {
-      alert('Error: ' + e.message);
+      alert("Error: " + e.message);
     }
   }
 
@@ -23,11 +25,11 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
     const files = ev.target.files;
     const data = new FormData();
     for (let i = 0; i < files.length; i++) {
-      data.append('photos', files[i]);
+      data.append("photos", files[i]);
     }
     axios
-      .post('/upload', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      .post("/upload", data, {
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
         const { data: filenames } = response;
@@ -58,8 +60,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
         />
         <button
           onClick={addPhotoByLink}
-          className="bg-gray-200 px-2 rounded-2xl font-semibold"
-        >
+          className="bg-gray-200 px-2 rounded-2xl font-semibold">
           Add&nbsp;Photo
         </button>
       </div>
@@ -67,23 +68,21 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
         {addedPhotos.length > 0 &&
           addedPhotos.map((link) => (
             <div className="h-32 flex relative" key={link}>
-              <img
+              <Image
                 className="rounded w-full object-cover"
-                src={'http://127.0.0.1:4000/uploads/' + link}
+                src={link}
                 alt=""
               />
               <button
                 onClick={(ev) => removePhoto(ev, link)}
-                className="cursor-pointer  absolute bottom-1 right-1 text-white bg-black bg-opacity-40 rounded-full py-2 px-2"
-              >
+                className="cursor-pointer  absolute bottom-1 right-1 text-white bg-black bg-opacity-40 rounded-full py-2 px-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
-                >
+                  className="w-6 h-6">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -93,15 +92,13 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               </button>
               <button
                 onClick={(ev) => selectAsMainPhotot(ev, link)}
-                className="cursor-pointer absolute left-1 bottom-1 text-white bg-black bg-opacity-40 rounded-full py-2 px-2"
-              >
+                className="cursor-pointer absolute left-1 bottom-1 text-white bg-black bg-opacity-40 rounded-full py-2 px-2">
                 {link === addedPhotos[0] && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-6 h-6"
-                  >
+                    className="w-6 h-6">
                     <path
                       fillRule="evenodd"
                       d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
@@ -116,8 +113,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6"
-                  >
+                    className="w-6 h-6">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -142,8 +138,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-8 h-8"
-          >
+            className="w-8 h-8">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
